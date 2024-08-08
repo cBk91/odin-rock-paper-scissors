@@ -2,12 +2,14 @@ const SCISSORS = "scissors";
 const ROCK = "rock";
 const PAPER = "paper";
 
-console.log(getComputerChoice());
-console.log(getComputerChoice());
-console.log(getComputerChoice());
-console.log(getComputerChoice());
-console.log(getComputerChoice());
+let humanScore = 0;
+let computerScore = 0;
 
+
+
+function isHumanChoiceCorrect(choice){
+    return choice === "rock" || choice === "paper" || choice ==="scissors";
+}
 
 
 function choiceSignal(choice){
@@ -23,11 +25,15 @@ function getComputerChoice(){
 }
 
 function getHumanChoice(choice){
-    return choiceSignal(choice);
+    return choiceSignal(convertStringChoiceInNumber(choice.toLowerCase()));
 }
-
-
-
+function convertStringChoiceInNumber(choice){
+    switch(choice){
+        case "rock":return 0;
+        case "paper":return 1;
+        case "scissors":return 2;
+    }
+}
 function getRandomInt(max){
     return Math.floor(Math.random() * max) ;
 }
