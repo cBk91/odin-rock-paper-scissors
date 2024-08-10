@@ -1,7 +1,8 @@
 const SCISSORS = "scissors";
 const ROCK = "rock";
 const PAPER = "paper";
-
+const HUMAN_WINNER = 1;
+const COMPUTER_WINNER = 0;
 let humanScore = 0;
 let computerScore = 0;
 
@@ -10,6 +11,7 @@ for(let i = 0,humanChoice = 0; i < 5;i++){
         humanChoice = prompt("Type your choice: ");
     }while(!isHumanChoiceCorrect(humanChoice));
     console.log(playRound(humanChoice,getComputerChoice()));
+    console.log(`Score\n Player: ${humanScore} PC: ${computerScore}`)
 }
 
 function playRound(humanChoice,computerChoice){
@@ -20,29 +22,30 @@ function playRound(humanChoice,computerChoice){
     
     switch(humanChoice){
         case "rock":
-            result = decideWhoLose(computerChoice,SCISSORS);
+            result = getRoundWinner(computerChoice,SCISSORS);
             break;
 
         case "paper":
-            result = decideWhoLose(computerChoice,ROCK);
+            result = getRoundWinner(computerChoice,ROCK);
             break;
 
         case "scissors":
-            result = decideWhoLose(computerChoice,PAPER);
+            result = getRoundWinner(computerChoice,PAPER);
             break;
     }
-    return result === 1 ?`You win! ${humanChoice} beats ${computerChoice}.`:
+    return result === HUMAN_WINNER ?`You win! ${humanChoice} beats ${computerChoice}.`:
     `You lose! ${computerChoice} beats ${humanChoice}.`;        
 }
 
-function decideWhoLose(computerChoice,loseChoice){
+
+function getRoundWinner(computerChoice,loseChoice){
     if(computerChoice === loseChoice){
         humanScore++;                
-        return 1;
+        return HUMAN_WINNER;
         }
     else{        
         computerScore++;
-        return 2;    
+        return COMPUTER_WINNER;    
     }
 }
 
