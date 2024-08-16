@@ -5,13 +5,38 @@ const HUMAN_WINNER = 1;
 const COMPUTER_WINNER = 0;
 let humanScore = 0;
 let computerScore = 0;
+const classList = ["flex", "flex_row", "flex_space", "gap_medium"];
 
-for(let i = 0,humanChoice = 0; i < 5;i++){
-    do{
-        humanChoice = prompt("Type your choice: ");
-    }while(!isHumanChoiceCorrect(humanChoice));
-    console.log(playRound(humanChoice,getComputerChoice()));
-    console.log(`Score\n Player: ${humanScore} PC: ${computerScore}`)
+const newGame = document.querySelector("#new_game");
+const gameMenu = document.querySelector(".game_menu")
+const container = document.querySelector("#container");
+
+newGame.addEventListener("click",() => {
+    restartScore();
+    gameMenu.style.display = "none";
+    addScoreSectionToDOM(classList);
+});
+
+function restartScore(){
+    humanScore = 0;
+    computerScore = 0;
+}
+
+function addScoreSectionToDOM(divClassList){
+    let scoreHeader = document.createElement("h1");
+    scoreHeader.textContent = "Score";
+    let playerScoreP = document.createElement("p");
+    playerScoreP.textContent = `Player: ${humanScore}`;
+    let computerScoreP = document.createElement("p");
+    computerScoreP.textContent = `Computer: ${computerScore}`;
+    let div = document.createElement("div");
+    div.appendChild(playerScoreP);
+    div.appendChild(computerScoreP);
+    for(let element of divClassList)
+        div.classList.add(element);
+    container.appendChild(scoreHeader);
+    container.appendChild(div);
+
 }
 
 function playRound(humanChoice,computerChoice){
