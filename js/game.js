@@ -10,11 +10,16 @@ const classList = ["flex", "flex_row", "flex_space", "gap_medium"];
 const newGame = document.querySelector("#new_game");
 const gameMenu = document.querySelector(".game_menu")
 const container = document.querySelector("#container");
-
+const result = document.createElement("h1");
+const playerScoreP = document.createElement("p");
+playerScoreP.textContent = `Player: ${humanScore}`;
+const computerScoreP = document.createElement("p");
+computerScoreP.textContent = `Computer: ${computerScore}`;
+const chooseDiv = createFlexRowDiv(classList);
 newGame.addEventListener("click",() => {
     restartScore();
     gameMenu.style.display = "none";
-    addScoreSectionToDOM(classList);
+    addScoreSectionToDOM();
 });
 
 function restartScore(){
@@ -22,29 +27,56 @@ function restartScore(){
     computerScore = 0;
 }
 
-function addScoreSectionToDOM(divClassList){
+function addScoreSectionToDOM(){
     let scoreHeader = document.createElement("h1");
-    scoreHeader.textContent = "Score";
-    let playerScoreP = document.createElement("p");
+    scoreHeader.textContent = "Score";    
+    let scoreDiv = createFlexRowDiv(classList);
+    chooseDiv.appendChild(createChoiceButton("rock"));
+    chooseDiv.appendChild(createChoiceButton("paper"));
+    chooseDiv.appendChild(createChoiceButton("scissors"));
+    scoreDiv.appendChild(playerScoreP);
+    scoreDiv.appendChild(computerScoreP);   
+    container.appendChild(scoreHeader);
+    container.appendChild(scoreDiv);
+    container.appendChild(result);
+    container.appendChild(chooseDiv);
+
+}
+function createChoiceButton(choice){
+    let choiceBtn = document.createElement("button");
+    choiceBtn.setAttribute("type","submit");
+    choiceBtn.textContent = choice;
+    choiceBtn.addEventListener("click", (event)=> {       
+        result.textContent = 
+        playRound(getHumanChoice(choiceBtn.textContent),getComputerChoice());
+        updateScore();
+        getMatchWinner();
+    });
+    return choiceBtn;
+}
+function getMatchWinner(){
+    if(humanScore == 5 || computerScore == 5){
+       result.textContent = humanScore == 5 ? "You win!":"PC master race win!";
+        chooseDiv.style.display = 'none';
+        
+    }
+}
+function updateScore(){
     playerScoreP.textContent = `Player: ${humanScore}`;
-    let computerScoreP = document.createElement("p");
     computerScoreP.textContent = `Computer: ${computerScore}`;
+}
+
+function createFlexRowDiv(divClassList){
     let div = document.createElement("div");
-    div.appendChild(playerScoreP);
-    div.appendChild(computerScoreP);
     for(let element of divClassList)
         div.classList.add(element);
-    container.appendChild(scoreHeader);
-    container.appendChild(div);
-
+    return div;
 }
 
 function playRound(humanChoice,computerChoice){
-    console.log(`Human: ${humanChoice} PC: ${computerChoice}`);
     if(humanChoice === computerChoice)        
         return "It is a draw!";    
-    let result = 0;
-    
+    let result = 0;    
     switch(humanChoice){
         case "rock":
             result = getRoundWinner(computerChoice,SCISSORS);
