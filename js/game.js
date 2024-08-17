@@ -59,6 +59,7 @@ function getMatchWinner(){
        result.textContent = humanScore == 5 ? "You win!":"PC master race win!";
         chooseDiv.style.display = 'none';
         
+
     }
 }
 function updateScore(){
